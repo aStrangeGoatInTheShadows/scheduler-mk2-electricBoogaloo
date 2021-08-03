@@ -10,8 +10,9 @@ import classNames from "classnames/bind";
 
 import "components/Button.scss";
 
+// Creates our main button
 export default function Button(props) {
-  // let buttonClass = "button";
+  // Sets the class dependant on button state
   let buttonClass = classNames("button", {
     "button--confirm": props.confirm,
     "button--danger": props.danger,

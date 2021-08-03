@@ -2,7 +2,6 @@ import React from "react";
 import classNames from "classnames/bind";
 
 import "components/DayListItem.scss";
-import { tsPropertySignature } from "@babel/types";
 
 export default function DayListItem(props) {
   const formatSpots = () => {

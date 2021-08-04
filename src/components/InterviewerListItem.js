@@ -3,24 +3,20 @@ import classNames from "classnames";
 
 import "components/InterviewerListItem.scss";
 
+// Creates the each individual item that is then displayed by InterviewerList Component
 export default function InterviewListItem(props) {
-  let InterviewListItemClass = classNames("interviewers__item", {
+  let interviewerClass = classNames("interviewers__item", {
     "interviewers__item--selected": props.selected,
   });
 
   return (
-    <li
-      className={InterviewListItemClass}
-      onClick={() => {
-        console.log("setInterviewer");
-      }}
-    >
+    <li className={interviewerClass} onClick={props.setInterviewer}>
       <img
         className="interviewers__item-image"
-        src="https://i.imgur.com/LpaY82x.png"
-        alt="Sylvia Palmer"
+        src={props.avatar}
+        alt={props.name}
       />
-      Sylvia Palmer
+      {props.selected && props.name}
     </li>
   );
 }

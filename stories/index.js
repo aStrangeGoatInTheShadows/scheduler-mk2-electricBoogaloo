@@ -11,6 +11,13 @@ import DayList from "components/DayList";
 import InterviewerListItem from "components/InterviewerListItem";
 import InterviewerList from "components/InterviewerList";
 import Appointment from "components/Appointment/index";
+import Header from "components/Appointment/Header";
+import Empty from "components/Appointment/Empty";
+import Show from "components/Appointment/Show";
+import Confirm from "components/Appointment/Confirm";
+import Status from "components/Appointment/Status";
+import Error from "components/Appointment/Error";
+import Form from "components/Appointment/Form";
 
 storiesOf("Button", module)
   .addParameters({
@@ -127,10 +134,46 @@ storiesOf("InterviewerList", module)
       setInterviewer={action("setInterviewer")}
     />
   ));
-
 storiesOf("Appointment", module)
   .addParameters({
     backgrounds: [{ name: "white", value: "#fff", default: true }],
   })
   .add("Appointment", () => <Appointment />)
-  .add("Timed", () => <Appointment time="12pm" />);
+  .add("Appointment with Time", () => <Appointment time="12pm" />)
+  .add("Header", () => <Header time="12pm" />) // the rest of your code should go here);
+  .add("Show", () => <Show />)
+  .add("Empty", () => <Empty />)
+  .add("Confirm", () => (
+    <Confirm
+      message="Delete the appointment?"
+      onConfirm={() => {
+        /*prop function to confirm*/ action("onConfirm");
+      }}
+      onCancel={() => {
+        /*prop function to delete*/ action("onCancel");
+      }}
+    />
+  ))
+  .add("Status", () => <Status message={"Deleting"} />)
+  .add("Error", () => (
+    <Error
+      message={"Could not delete appointment."}
+      onClose={() => action("onCancel")}
+    />
+  ))
+  .add("Edit", () => (
+    <Form
+      name={"Steve McQueen"}
+      interviewers={interviewers}
+      interviewer={3}
+      onSave={action("onSave")}
+      onCancel={action("onCancel")}
+    />
+  ))
+  .add("Create", () => (
+    <Form
+      interviewers={interviewers}
+      onSave={action("onSave")}
+      onCancel={action("onCancel")}
+    />
+  ));

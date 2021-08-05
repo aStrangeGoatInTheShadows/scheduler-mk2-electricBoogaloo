@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import classNames from "classnames/bind";
 
 import "./styles.scss";
 
@@ -50,7 +49,9 @@ export default function Form(props) {
           >
             Cancel
           </Button>
-          <Button confirm>Save</Button>
+          <Button confirm onClick={props.onSave}>
+            Save
+          </Button>
         </section>
       </section>
     </main>

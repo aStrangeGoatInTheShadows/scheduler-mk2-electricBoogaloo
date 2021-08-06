@@ -1,5 +1,7 @@
 import React from "react";
 
+import useVisualMode from "hooks/useVisualMode";
+
 import "./styles.scss";
 
 import Button from "components/Button";
@@ -7,6 +9,17 @@ import InterviewerList from "components/InterviewerList";
 import Header from "./Header";
 import Show from "./Show";
 import Empty from "./Empty";
+import Status from "./Status";
+import Confirm from "./Confirm";
+import Form from "./Form";
+
+const EMPTY = "EMPTY";
+const SHOW = "SHOW";
+const CREATE = "CREATE";
+const CONFIRM = "CONFIRM";
+const EDIT = "EDIT";
+const SAVING = "SAVING";
+const DELETING = "DELETING";
 
 const createInterviewList = (props) => {
   return (
@@ -22,41 +35,78 @@ const createInterviewList = (props) => {
 };
 
 export default function Appointment(props) {
-  if (props.id === "last") {
-    return <Header />;
-  }
-  if (!props.interview) {
-    return <Empty />;
-  }
-  if (props.interview) {
-    return <Show />;
-  }
+  const { mode, transition, back } = useVisualMode(
+    props.interview ? SHOW : EMPTY
+  );
+
+  // if (props.id === "last") {
+  //   return <Header />;
+  // }
+  // if (!props.interview) {
+  //   return <Empty />;
+  // }
+  // if (props.interview) {
+  //   return <Show />;
+  // }
 
   return (
-    <article>
-      <Header />
-      <main className="appointment__card appointment__card--create">
-        <section className="appointment__card-left">
-          <form autoComplete="off">
-            <input
-              className="appointment__create-input text--semi-bold"
-              name="name"
-              type="text"
-              placeholder="Enter Student Name"
-              /*
-          This must be a controlled component
-        */
-            />
-          </form>{" "}
-          {createInterviewList(props)}
-        </section>
-        <section className="appointment__card-right">
-          <section className="appointment__actions">
-            <Button danger>Cancel</Button>
-            <Button confirm>Save</Button>
-          </section>
-        </section>
-      </main>
+    <article className="appointment">
+      <Header time={props.time} />
+      {mode === EMPTY && <Empty onAdd={() => transition(CREATE)} />}
+      {mode === SHOW && (
+        <Show
+          student={props.interview.student}
+          interviewer={props.intObj.interviewer}
+          id={props.id}
+          onDelete={() => {
+            transition(CONFIRM);
+          }}
+          onEdit={() => {
+            transition(EDIT);
+          }}
+        />
+      )}
+      {mode === CREATE && (
+        <Form
+          interviewers={[]}
+          onCancel={() => {
+            back();
+          }}
+        />
+      )}
+      {/* {mode === EDIT && createOrEdit(EDIT)} */}
+      {/* {mode === ERROR_SAVE && (
+        <Error
+          message={"We are unable to save at this time."}
+          onClose={() => {
+            back();
+          }}
+        />
+      )} */}
+      {/* {mode === ERROR_DELETE && (
+        <Error
+          message={"We are unable to delete at this time."}
+          onClose={() => {
+            resetTo(SHOW);
+          }}
+        />
+      )} */}
+      {mode === SAVING && <Status message={"Saving..."} />}
+      {mode === DELETING && <Status message={"Deleting..."} />}
+      {mode === CONFIRM && (
+        <Confirm
+          message={"Are you sure you want to delete?"}
+          onCancel={() => {
+            back();
+          }}
+          onConfirm={() => {
+            // transition(DELETING);
+            // props.onDelete(props.id, resetTo, EMPTY, () =>
+            //   transition(ERROR_DELETE)
+            // );
+          }}
+        />
+      )}
     </article>
   );
 }

@@ -7,7 +7,7 @@ import { getAppointmentsForDay } from "helpers/selectors";
 
 import "components/Application.scss";
 import DayList from "./DayList";
-import Appointment from "./Appointment";
+import Appointment from "./Appointment/index";
 // dotenv.config();
 
 // console.log(dotenv.config({ path: "../../.env.development" }));
@@ -40,13 +40,15 @@ const api = `http://localhost:8001`;
 const generateAppointmentList = (state, day) => {
   const appointments = getAppointmentsForDay(state, day);
   // console.log("generateAppointmentList - appointments", appointments);
-
+  let count = 0;
   const appArr = appointments.map((appointment) => {
+    count++;
+    console.log(count);
     return <Appointment state={state}></Appointment>;
   });
   // console.log(appArr);
 
-  return <></>;
+  return <>{appArr}</>;
 };
 
 const apiGetDays = function () {
@@ -118,64 +120,7 @@ export default function Application(props) {
           </>
         }
       </section>
-      <section className="schedule">{/* APPP ARRAY GOES HERER*/}</section>
+      <section className="schedule">{appointmentsComponentArr}</section>
     </main>
   );
 }
-
-//       return (
-//   <main className="layout">
-//       <section className="sidebar">
-//         {/* Replace this with the sidebar elements during the "Project Setup & Familiarity" activity. */}
-//       </section>
-//       <section className="schedule">
-//         {/* Replace this with the schedule elements durint the "The Scheduler" activity. */}
-//       </section>
-//     </main>
-//   )
-// }
-
-//////////////////////// APPOINTMENTS DATA STRUCTURE
-
-// const appointments = [
-//   {
-//     id: 1,
-//     time: "12pm",
-//   },
-//   {
-//     id: 2,
-//     time: "1pm",
-//     interview: {
-//       student: "Lydia Miller-Jones",
-//       interviewer: {
-//         id: 1,
-//         name: "Sylvia Palmer",
-//         avatar: "https://i.imgur.com/LpaY82x.png",
-//       },
-//     },
-//   },
-//   {
-//     id: 3,
-//     time: "2pm",
-//     interview: {
-//       student: "Lydia Miller-Jones",
-//       interviewer: {
-//         id: 1,
-//         name: "Sylvia Palmer",
-//         avatar: "https://i.imgur.com/LpaY82x.png",
-//       },
-//     },
-//   },
-//   {
-//     id: 4,
-//     time: "3pm",
-//     interview: {
-//       student: "Lydia Miller-Jones",
-//       interviewer: {
-//         id: 1,
-//         name: "Sylvia Palmer",
-//         avatar: "https://i.imgur.com/LpaY82x.png",
-//       },
-//     },
-//   },
-// ];

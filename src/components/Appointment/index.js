@@ -22,8 +22,6 @@ const createInterviewList = (props) => {
 };
 
 export default function Appointment(props) {
-  console.log("Currently testing appointment list generation", props);
-
   if (props.id === "last") {
     return <Header />;
   }

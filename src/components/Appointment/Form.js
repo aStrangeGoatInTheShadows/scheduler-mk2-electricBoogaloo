@@ -32,11 +32,9 @@ export default function Form(props) {
           />
         </form>
         <InterviewerList
-          interviewers={props.interviewers}
+          interviewers={props.state.interviewers}
           interviewer={interviewer}
-          setInterviewer={(target) => {
-            setInterviewer(target);
-          }}
+          setInterviewer={setInterviewer}
         />
       </section>
       <section className="appointment__card-right">

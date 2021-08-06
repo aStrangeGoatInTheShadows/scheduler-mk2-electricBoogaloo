@@ -17,4 +17,10 @@ const getAppointmentsForDay = (state, selectedDay) => {
   return appointments;
 };
 
+// When passed the state and day, the function returns
+// a specific interview?
+const getInterview = (state, day) => {
+  return [];
+};
+
 export { getAppointmentsForDay };

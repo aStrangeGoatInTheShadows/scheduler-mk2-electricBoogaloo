@@ -2,8 +2,12 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 // import dotenv from "dotenv";
 
+////////////////// HELPERS IMPORT /////////////////////
+import { getAppointmentsForDay } from "helpers/selectors";
+
 import "components/Application.scss";
 import DayList from "./DayList";
+import Appointment from "./Appointment";
 // dotenv.config();
 
 // console.log(dotenv.config({ path: "../../.env.development" }));
@@ -30,48 +34,20 @@ const api = `http://localhost:8001`;
 //   },
 // ];
 
-const appointments = [
-  {
-    id: 1,
-    time: "12pm",
-  },
-  {
-    id: 2,
-    time: "1pm",
-    interview: {
-      student: "Lydia Miller-Jones",
-      interviewer: {
-        id: 1,
-        name: "Sylvia Palmer",
-        avatar: "https://i.imgur.com/LpaY82x.png",
-      },
-    },
-  },
-  {
-    id: 3,
-    time: "2pm",
-    interview: {
-      student: "Lydia Miller-Jones",
-      interviewer: {
-        id: 1,
-        name: "Sylvia Palmer",
-        avatar: "https://i.imgur.com/LpaY82x.png",
-      },
-    },
-  },
-  {
-    id: 4,
-    time: "3pm",
-    interview: {
-      student: "Lydia Miller-Jones",
-      interviewer: {
-        id: 1,
-        name: "Sylvia Palmer",
-        avatar: "https://i.imgur.com/LpaY82x.png",
-      },
-    },
-  },
-];
+// When passed the current day as well as the state
+// this function will fetch appointments for the day
+// It returns an array of react appointment components
+const generateAppointmentList = (state, day) => {
+  const appointments = getAppointmentsForDay(state, day);
+  // console.log("generateAppointmentList - appointments", appointments);
+
+  const appArr = appointments.map((appointment) => {
+    return <Appointment state={state}></Appointment>;
+  });
+  // console.log(appArr);
+
+  return <></>;
+};
 
 const apiGetDays = function () {
   return axios.get(`${api}/api/days`);
@@ -95,27 +71,6 @@ export default function Application(props) {
   const setAppointments = (appointments) =>
     setState({ ...state, appointments: appointments });
 
-  // useEffect(() => {
-  //   apiGetDays()
-  //     .then((res) => {
-  //       setDays(res.data);
-  //       console.log(res.data);
-  //     })
-  //     .catch((err) => {
-  //       console.log(`An error has occured contacting the server `);
-  //       console.log(err);
-  //     });
-
-  //   apiGetAppointments()
-  //     .then((res) => {
-  //       setAppointments(res.data);
-  //     })
-  //     .catch((err) => {
-  //       console.log(`An error has occured contacting the server `);
-  //       console.log(err);
-  //     });
-  // }, []);
-
   useEffect(() => {
     Promise.all([
       apiGetDays(),
@@ -134,6 +89,10 @@ export default function Application(props) {
       });
     });
   }, [setState]);
+
+  const appointmentsComponentArr = generateAppointmentList(state, state.day);
+
+  console.log("This is appointmentsComponentArr", appointmentsComponentArr);
 
   return (
     <main className="layout">
@@ -175,3 +134,48 @@ export default function Application(props) {
 //     </main>
 //   )
 // }
+
+//////////////////////// APPOINTMENTS DATA STRUCTURE
+
+// const appointments = [
+//   {
+//     id: 1,
+//     time: "12pm",
+//   },
+//   {
+//     id: 2,
+//     time: "1pm",
+//     interview: {
+//       student: "Lydia Miller-Jones",
+//       interviewer: {
+//         id: 1,
+//         name: "Sylvia Palmer",
+//         avatar: "https://i.imgur.com/LpaY82x.png",
+//       },
+//     },
+//   },
+//   {
+//     id: 3,
+//     time: "2pm",
+//     interview: {
+//       student: "Lydia Miller-Jones",
+//       interviewer: {
+//         id: 1,
+//         name: "Sylvia Palmer",
+//         avatar: "https://i.imgur.com/LpaY82x.png",
+//       },
+//     },
+//   },
+//   {
+//     id: 4,
+//     time: "3pm",
+//     interview: {
+//       student: "Lydia Miller-Jones",
+//       interviewer: {
+//         id: 1,
+//         name: "Sylvia Palmer",
+//         avatar: "https://i.imgur.com/LpaY82x.png",
+//       },
+//     },
+//   },
+// ];

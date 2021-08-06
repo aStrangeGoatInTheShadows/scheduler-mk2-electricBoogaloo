@@ -21,33 +21,25 @@ const EDIT = "EDIT";
 const SAVING = "SAVING";
 const DELETING = "DELETING";
 
-const createInterviewList = (props) => {
-  return (
-    <InterviewerList
-      interviewers={props.interviewers}
-      // value={interviewer}
-      // onChange={setInterviewer}
-      onChange={(event) => {
-        console.log("on change running from Appointment/index.js prop");
-      }}
-    />
-  );
-};
+// const createInterviewList = (props) => {
+//   console.log(props);
+
+//   return (
+//     <InterviewerList
+//       interviewers={props.state.interviewers}
+//       // value={interviewer}
+//       // onChange={setInterviewer}
+//       onChange={(event) => {
+//         console.log("on change running from Appointment/index.js prop");
+//       }}
+//     />
+//   );
+// };
 
 export default function Appointment(props) {
   const { mode, transition, back } = useVisualMode(
     props.interview ? SHOW : EMPTY
   );
-
-  // if (props.id === "last") {
-  //   return <Header />;
-  // }
-  // if (!props.interview) {
-  //   return <Empty />;
-  // }
-  // if (props.interview) {
-  //   return <Show />;
-  // }
 
   return (
     <article className="appointment">
@@ -68,7 +60,7 @@ export default function Appointment(props) {
       )}
       {mode === CREATE && (
         <Form
-          interviewers={[]}
+          state={props.state}
           onCancel={() => {
             back();
           }}

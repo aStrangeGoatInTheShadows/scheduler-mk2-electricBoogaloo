@@ -22,7 +22,6 @@ export default function DayListItem(props) {
   });
 
   return (
-    // <li className={dayListItemClass} onClick={props.setDay(props.name)}>
     <li
       className={dayListItemClass}
       onClick={() => {

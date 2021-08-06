@@ -1,25 +1,34 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+// import dotenv from "dotenv";
 
 import "components/Application.scss";
 import DayList from "./DayList";
+// dotenv.config();
 
-const days = [
-  {
-    id: 1,
-    name: "Monday",
-    spots: 2,
-  },
-  {
-    id: 2,
-    name: "Tuesday",
-    spots: 5,
-  },
-  {
-    id: 3,
-    name: "Wednesday",
-    spots: 0,
-  },
-];
+// console.log(dotenv.config({ path: "../../.env.development" }));
+// console.log(process.env.API_ADDRESS);
+
+// const apiAddress = process.env.API_ADDRESS;
+const api = `http://localhost:8001`;
+
+// const days = [
+//   {
+//     id: 1,
+//     name: "Monday",
+//     spots: 2,
+//   },
+//   {
+//     id: 2,
+//     name: "Tuesday",
+//     spots: 5,
+//   },
+//   {
+//     id: 3,
+//     name: "Wednesday",
+//     spots: 0,
+//   },
+// ];
 
 const appointments = [
   {
@@ -64,8 +73,67 @@ const appointments = [
   },
 ];
 
+const apiGetDays = function () {
+  return axios.get(`${api}/api/days`);
+};
+const apiGetAppointments = function () {
+  return axios.get(`${api}/api/appointments`);
+};
+const apiGetInterviewers = function () {
+  return axios.get(`${api}/api/interviewers`);
+};
+
 export default function Application(props) {
-  const [day, setDay] = useState("Monday");
+  const [state, setState] = useState({
+    day: "Monday",
+    days: [],
+    appointments: [],
+  });
+
+  const setDay = (day) => setState({ ...state, day });
+  const setDays = (days) => setState({ ...state, days: days });
+  const setAppointments = (appointments) =>
+    setState({ ...state, appointments: appointments });
+
+  // useEffect(() => {
+  //   apiGetDays()
+  //     .then((res) => {
+  //       setDays(res.data);
+  //       console.log(res.data);
+  //     })
+  //     .catch((err) => {
+  //       console.log(`An error has occured contacting the server `);
+  //       console.log(err);
+  //     });
+
+  //   apiGetAppointments()
+  //     .then((res) => {
+  //       setAppointments(res.data);
+  //     })
+  //     .catch((err) => {
+  //       console.log(`An error has occured contacting the server `);
+  //       console.log(err);
+  //     });
+  // }, []);
+
+  useEffect(() => {
+    Promise.all([
+      apiGetDays(),
+      apiGetAppointments(),
+      apiGetInterviewers(),
+    ]).then((response) => {
+      setState((stateClassic) => {
+        const newState = {
+          days: response[0].data,
+          appointments: response[1].data,
+          day: stateClassic.day,
+          interviewers: response[2].data,
+        };
+
+        return newState;
+      });
+    });
+  }, [setState]);
 
   return (
     <main className="layout">
@@ -80,7 +148,7 @@ export default function Application(props) {
 
             <hr className="sidebar__separator sidebar--centered" />
             <nav className="sidebar__menu">
-              <DayList days={days} day={day} setDay={setDay} />
+              <DayList state={state} setState={setState} setDay={setDay} />
             </nav>
 
             <img

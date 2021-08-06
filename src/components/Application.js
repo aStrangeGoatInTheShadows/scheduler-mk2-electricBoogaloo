@@ -94,7 +94,7 @@ export default function Application(props) {
 
   const appointmentsComponentArr = generateAppointmentList(state, state.day);
 
-  console.log("This is appointmentsComponentArr", appointmentsComponentArr);
+  // console.log("This is appointmentsComponentArr", appointmentsComponentArr);
 
   return (
     <main className="layout">

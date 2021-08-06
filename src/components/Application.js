@@ -3,7 +3,10 @@ import axios from "axios";
 // import dotenv from "dotenv";
 
 ////////////////// HELPERS IMPORT /////////////////////
-import { getAppointmentsForDay } from "helpers/selectors";
+import {
+  getAppointmentsForDay,
+  getInterviewersForDay,
+} from "helpers/selectors";
 
 import "components/Application.scss";
 import DayList from "./DayList";
@@ -39,14 +42,11 @@ const api = `http://localhost:8001`;
 // It returns an array of react appointment components
 const generateAppointmentList = (state, day) => {
   const appointments = getAppointmentsForDay(state, day);
-  // console.log("generateAppointmentList - appointments", appointments);
-  let count = 0;
+  const interviewerArr = [...getInterviewersForDay(state, state.day)];
+
   const appArr = appointments.map((appointment) => {
-    count++;
-    console.log(count);
-    return <Appointment state={state}></Appointment>;
+    return <Appointment appointment={appointment} state={state}></Appointment>;
   });
-  // console.log(appArr);
 
   return <>{appArr}</>;
 };

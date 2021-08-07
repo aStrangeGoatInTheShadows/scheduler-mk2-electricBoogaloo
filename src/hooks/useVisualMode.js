@@ -14,17 +14,30 @@ export default function useVisualMode(initial) {
       return;
     }
     setHistory([...history, newMode]);
+    console.log(history);
+    console.log(mode);
   };
 
   const back = () => {
+    console.log(history);
+    console.log(mode);
     if (mode === initial) {
       return;
     }
-    let historyClassic = history;
+    let historyClassic = [...history];
     historyClassic.pop();
-    setHistory(historyClassic);
+    setHistory([...historyClassic]);
     setMode(historyClassic[historyClassic.length - 1]);
   };
 
-  return { mode, transition, back };
+  const reset = (newMode = "EMPTY") => {
+    setMode(newMode);
+    setHistory([newMode]);
+  };
+
+  const showHistory = () => {
+    return history;
+  };
+
+  return { mode, transition, back, reset, showHistory };
 }

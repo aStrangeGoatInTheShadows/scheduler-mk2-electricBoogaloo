@@ -5,8 +5,14 @@ import "./styles.scss";
 import Button from "components/Button";
 import InterviewerList from "components/InterviewerList";
 export default function Form(props) {
-  const [name, setName] = useState(props.name || "");
-  const [interviewer, setInterviewer] = useState(props.interviewer || null);
+  // Sets default state to use prexisiting appointment if it exists, otherwise sets empty/null
+  const [name, setName] = useState(
+    (props.appointment.interview && props.appointment.interview.student) || ""
+  );
+  const [interviewer, setInterviewer] = useState(
+    (props.appointment.interview && props.appointment.interview.interviewer) ||
+      null
+  );
 
   const resetForm = () => {
     setName("");
@@ -51,7 +57,6 @@ export default function Form(props) {
             confirm
             onClick={() => {
               if (name && interviewer) {
-                // console.log(name, interviewer);
                 props.onSave(name, interviewer);
               }
             }}

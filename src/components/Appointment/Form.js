@@ -51,6 +51,7 @@ export default function Form(props) {
             confirm
             onClick={() => {
               if (name && interviewer) {
+                // console.log(name, interviewer);
                 props.onSave(name, interviewer);
               }
             }}

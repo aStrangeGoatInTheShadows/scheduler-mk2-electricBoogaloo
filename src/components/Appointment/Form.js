@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 
 import "./styles.scss";
 
@@ -47,7 +47,14 @@ export default function Form(props) {
           >
             Cancel
           </Button>
-          <Button confirm onClick={props.onSave}>
+          <Button
+            confirm
+            onClick={() => {
+              if (name && interviewer) {
+                props.onSave(name, interviewer);
+              }
+            }}
+          >
             Save
           </Button>
         </section>

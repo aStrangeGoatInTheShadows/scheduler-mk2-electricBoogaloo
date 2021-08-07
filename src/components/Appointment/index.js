@@ -4,8 +4,6 @@ import useVisualMode from "hooks/useVisualMode";
 
 import "./styles.scss";
 
-import Button from "components/Button";
-import InterviewerList from "components/InterviewerList";
 import Header from "./Header";
 import Show from "./Show";
 import Empty from "./Empty";
@@ -21,25 +19,19 @@ const EDIT = "EDIT";
 const SAVING = "SAVING";
 const DELETING = "DELETING";
 
-// const createInterviewList = (props) => {
-//   console.log(props);
-
-//   return (
-//     <InterviewerList
-//       interviewers={props.state.interviewers}
-//       // value={interviewer}
-//       // onChange={setInterviewer}
-//       onChange={(event) => {
-//         console.log("on change running from Appointment/index.js prop");
-//       }}
-//     />
-//   );
-// };
-
 export default function Appointment(props) {
-  const { mode, transition, back } = useVisualMode(
-    props.interview ? SHOW : EMPTY
-  );
+  const interview = props.appointment.interview || null;
+
+  const { mode, transition, back } = useVisualMode(interview ? SHOW : EMPTY);
+
+  const save = (name, interviewer) => {
+    const interview = {
+      student: name,
+      interviewer,
+    };
+
+    props.onSave(interview);
+  };
 
   return (
     <article className="appointment">
@@ -47,8 +39,8 @@ export default function Appointment(props) {
       {mode === EMPTY && <Empty onAdd={() => transition(CREATE)} />}
       {mode === SHOW && (
         <Show
-          student={props.interview.student}
-          interviewer={props.intObj.interviewer}
+          student={interview.student}
+          interviewer={interview.interviewer}
           id={props.id}
           onDelete={() => {
             transition(CONFIRM);
@@ -64,6 +56,7 @@ export default function Appointment(props) {
           onCancel={() => {
             back();
           }}
+          onSave={save}
         />
       )}
       {/* {mode === EDIT && createOrEdit(EDIT)} */}

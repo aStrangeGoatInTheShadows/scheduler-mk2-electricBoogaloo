@@ -1,7 +1,5 @@
 // Takes in state containing both days and appointments.
 
-import { select } from "async";
-
 // Returns the relevent appointments
 const getAppointmentsForDay = (state, selectedDay) => {
   let appIndexes = [];

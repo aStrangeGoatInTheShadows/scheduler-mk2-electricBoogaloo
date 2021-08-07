@@ -14,13 +14,9 @@ export default function useVisualMode(initial) {
       return;
     }
     setHistory([...history, newMode]);
-    console.log(history);
-    console.log(mode);
   };
 
   const back = () => {
-    console.log(history);
-    console.log(mode);
     if (mode === initial) {
       return;
     }

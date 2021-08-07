@@ -18,23 +18,29 @@ const getAppointmentsForDay = (state, selectedDay) => {
   return appointments;
 };
 
-// When passed the state and day, the function returns
-// a specific interview?
-const getInterviewersForDay = (state, selectedDay) => {
-  const interviewersForDay = [];
-  let appointments = [];
-
-  for (let day of state.days) {
-    if (day.name === selectedDay) {
-      appointments = [...day.appointments];
-    }
-  }
-
-  for (let index of appointments) {
-    interviewersForDay.push(state.appointments[index]);
-  }
-
-  return interviewersForDay;
+// TO REMOVE
+// created but not used //
+const getInterviewerNameById = (state, id) => {
+  return state.interviewers[id].name;
 };
 
-export { getAppointmentsForDay, getInterviewersForDay };
+// // When passed the state and day, the function returns
+// // a specific interview?
+// const getInterviewersForDay = (state, selectedDay) => {
+//   const interviewersForDay = [];
+//   let appointments = [];
+
+//   for (let day of state.days) {
+//     if (day.name === selectedDay) {
+//       appointments = [...day.appointments];
+//     }
+//   }
+
+//   for (let index of appointments) {
+//     interviewersForDay.push(state.appointments[index]);
+//   }
+
+//   return interviewersForDay;
+// };
+
+export { getAppointmentsForDay, getInterviewerNameById };

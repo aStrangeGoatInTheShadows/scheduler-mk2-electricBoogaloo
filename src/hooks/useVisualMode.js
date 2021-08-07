@@ -31,9 +31,5 @@ export default function useVisualMode(initial) {
     setHistory([newMode]);
   };
 
-  const showHistory = () => {
-    return history;
-  };
-
-  return { mode, transition, back, reset, showHistory };
+  return { mode, transition, back, reset };
 }

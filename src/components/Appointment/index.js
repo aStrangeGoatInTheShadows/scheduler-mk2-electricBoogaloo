@@ -26,7 +26,7 @@ const REPLACE = true;
 export default function Appointment(props) {
   const interview = props.appointment.interview || null;
 
-  const { mode, transition, back, reset, showHistory } = useVisualMode(
+  const { mode, transition, back, reset } = useVisualMode(
     interview ? SHOW : EMPTY
   );
 

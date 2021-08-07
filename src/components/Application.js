@@ -20,7 +20,6 @@ const generateAppointmentList = (state, day, bookInterview) => {
   const appointments = getAppointmentsForDay(state, day);
 
   const appArr = appointments.map((appointment) => {
-    // console.log("This is the appointment before map", appointment);
     return (
       <Appointment
         key={appointment.id}
@@ -51,18 +50,19 @@ export default function Application(props) {
     appointments: [],
   });
 
+  ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  // WORKING ON BOOK INTERVIEW
+  ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   const bookInterview = (id, interview) => {
+    // console.log(...state.appointments);
+
     const appointment = {
       ...state.appointments[id],
       interview: { ...interview },
     };
-    const appointments = { ...state.appointments, [id]: interview };
+    const appointments = { ...state.appointments, [id]: appointment };
 
-    setState({ ...state, appointments: [...appointments] });
-
-    console.log("This is bookinterview state", state);
-
-    console.log(id, interview);
+    setState({ ...state, appointments });
   };
 
   const setDay = (day) => setState({ ...state, day });

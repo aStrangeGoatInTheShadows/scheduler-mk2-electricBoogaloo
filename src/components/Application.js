@@ -26,6 +26,7 @@ const generateAppointmentList = (state, day, bookInterview) => {
         appointment={appointment}
         state={state}
         onSave={bookInterview}
+        onDelete={deleteInterview}
       ></Appointment>
     );
   });
@@ -33,6 +34,18 @@ const generateAppointmentList = (state, day, bookInterview) => {
   return <>{appArr}</>;
 };
 
+// Attempts to delete an interview from the API.
+const deleteInterview = (appointment, reset, failureCB) => {
+  apiDeleteInterview(appointment.id)
+    .then(() => {
+      reset();
+    })
+    .catch(() => {
+      failureCB();
+    });
+};
+
+/// API CALLS TO GET DATA
 const apiGetDays = function () {
   return axios.get(`${api}/api/days`);
 };
@@ -41,6 +54,20 @@ const apiGetAppointments = function () {
 };
 const apiGetInterviewers = function () {
   return axios.get(`${api}/api/interviewers`);
+};
+// API CALLS TO PUT DATA
+const apiPutAppointment = function (appointment) {
+  // const appointmentData = JSON.stringify(appointment.interview);
+  // console.log(appointmentData);
+  const interview = appointment.interview;
+
+  return axios.put(`${api}/api/appointments/${appointment.id}`, {
+    interview,
+  });
+};
+
+const apiDeleteInterview = (id) => {
+  return axios.delete(`${api}/api/appointments/${id}`);
 };
 
 export default function Application(props) {
@@ -53,16 +80,24 @@ export default function Application(props) {
   ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   // WORKING ON BOOK INTERVIEW
   ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-  const bookInterview = (id, interview) => {
-    // console.log(...state.appointments);
-
+  const bookInterview = (id, interview, successCB, failureCB) => {
     const appointment = {
       ...state.appointments[id],
       interview: { ...interview },
     };
+    let failure = false;
+
     const appointments = { ...state.appointments, [id]: appointment };
 
-    setState({ ...state, appointments });
+    apiPutAppointment(appointment)
+      .then(() => {
+        setState({ ...state, appointments });
+        successCB();
+      })
+      .catch(() => {
+        failureCB();
+        failure = true;
+      });
   };
 
   const setDay = (day) => setState({ ...state, day });

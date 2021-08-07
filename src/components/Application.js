@@ -2,10 +2,8 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 
 ////////////////// HELPERS IMPORT /////////////////////
-import {
-  getAppointmentsForDay,
-  // getInterviewersForDay,
-} from "helpers/selectors";
+import { getAppointmentsForDay } from "helpers/selectors";
+import useApplicationData from "hooks/useApplicationData.js";
 
 import "components/Application.scss";
 import DayList from "./DayList";
@@ -36,110 +34,12 @@ const generateAppointmentList = (
     );
   });
 
-  return <>{appArr}</>;
-};
-
-////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////
-//////////////////////////////////// CLEAR STATE AFTER DELETE SO TO NOT SHOW OLD DATA
-// Attempts to delete an interview from the API.
-
-/// API CALLS TO GET DATA
-const apiGetDays = function () {
-  return axios.get(`${api}/api/days`);
-};
-const apiGetAppointments = function () {
-  return axios.get(`${api}/api/appointments`);
-};
-const apiGetInterviewers = function () {
-  return axios.get(`${api}/api/interviewers`);
-};
-// API CALLS TO PUT DATA
-const apiPutAppointment = function (appointment) {
-  // const appointmentData = JSON.stringify(appointment.interview);
-  // console.log(appointmentData);
-  const interview = appointment.interview;
-
-  return axios.put(`${api}/api/appointments/${appointment.id}`, {
-    interview,
-  });
+  return appArr;
 };
 
 export default function Application(props) {
-  const [state, setState] = useState({
-    day: "Monday",
-    days: [],
-    appointments: [],
-  });
-
-  const apiDeleteInterview = (id) => {
-    return axios.delete(`${api}/api/appointments/${id}`);
-  };
-
-  const deleteInterview = (appointment, reset, back) => {
-    apiDeleteInterview(appointment.id)
-      .then(() => {
-        const emptyAppointment = { ...appointment, interview: null };
-
-        const appointments = {
-          ...state.appointments,
-          [appointment.id]: emptyAppointment,
-        };
-
-        setState({ ...state, appointments: appointments });
-
-        // resets the visual mode to empty after update to state
-        reset();
-      })
-      .catch(() => {
-        //returns to form
-        back();
-      });
-  };
-
-  // accepts
-  const bookInterview = (id, interview, successCB, failureCB) => {
-    const appointment = {
-      ...state.appointments[id],
-      interview: { ...interview },
-    };
-
-    const appointments = { ...state.appointments, [id]: appointment };
-
-    apiPutAppointment(appointment)
-      .then(() => {
-        setState({ ...state, appointments });
-        successCB();
-      })
-      .catch(() => {
-        failureCB();
-      });
-  };
-
-  const setDay = (day) => setState({ ...state, day });
-  // const setDays = (days) => setState({ ...state, days: days });
-  // const setAppointments = (appointments) =>
-  //   setState({ ...state, appointments: appointments });
-
-  useEffect(() => {
-    Promise.all([
-      apiGetDays(),
-      apiGetAppointments(),
-      apiGetInterviewers(),
-    ]).then((response) => {
-      setState((stateClassic) => {
-        const newState = {
-          days: response[0].data,
-          appointments: response[1].data,
-          day: stateClassic.day,
-          interviewers: response[2].data,
-        };
-
-        return newState;
-      });
-    });
-  }, [setState]);
+  const { state, setDay, bookInterview, deleteInterview } =
+    useApplicationData();
 
   const appointmentsComponentArr = generateAppointmentList(
     state,
@@ -161,12 +61,7 @@ export default function Application(props) {
 
             <hr className="sidebar__separator sidebar--centered" />
             <nav className="sidebar__menu">
-              <DayList
-                key={1}
-                state={state}
-                setState={setState}
-                setDay={setDay}
-              />
+              <DayList key={1} state={state} setDay={setDay} />
             </nav>
 
             <img

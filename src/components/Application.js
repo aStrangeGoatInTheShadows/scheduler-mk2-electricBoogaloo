@@ -52,6 +52,16 @@ export default function Application(props) {
   });
 
   const bookInterview = (id, interview) => {
+    const appointment = {
+      ...state.appointments[id],
+      interview: { ...interview },
+    };
+    const appointments = { ...state.appointments, [id]: interview };
+
+    setState({ ...state, appointments: [...appointments] });
+
+    console.log("This is bookinterview state", state);
+
     console.log(id, interview);
   };
 

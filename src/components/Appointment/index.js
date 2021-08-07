@@ -31,24 +31,31 @@ export default function Appointment(props) {
     };
 
     props.onSave(props.appointment.id, interview);
-    // transition(SHOW);
+    transition(SHOW);
   };
 
   return (
     <article className="appointment">
-      <Header time={props.time} />
-      {mode === EMPTY && <Empty onAdd={() => transition(CREATE)} />}
+      <Header time={props.appointment.time} />
+      {mode === EMPTY && (
+        <Empty
+          onAdd={() => {
+            transition(CREATE);
+          }}
+        />
+      )}
       {mode === SHOW && (
         <Show
           student={interview.student}
           interviewer={interview.interviewer}
-          id={props.id}
+          // id={props.id}
           onDelete={() => {
             transition(CONFIRM);
           }}
           onEdit={() => {
             transition(EDIT);
           }}
+          state={props.state}
         />
       )}
       {mode === CREATE && (

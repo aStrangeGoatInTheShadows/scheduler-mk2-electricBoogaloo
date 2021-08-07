@@ -40,27 +40,26 @@ export default function Appointment(props) {
     props.onSave(
       props.appointment.id,
       interview,
-      () => transition(SHOW),
+      () => transition(SHOW), // callback for succesful api call
       () => {
-        console.log("API SAVE CALL FAILED, SHOW ERROR");
-        transition(ERROR_SAVE);
+        transition(ERROR_SAVE); // callback for failed api call
       }
     );
   };
-  ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-  ////////////////////////////////////////////////////////////////////////////////
-  ////////////////////////////////////////////////////////////////////////////////
-  ////////////////////////////////////////////////////////////////////////////////
+
+  // Changes the visual mode to "deleting" message for user
+  // then passes an appointment to Application to delete from api and alter state
   const deleteInterview = () => {
     transition(DELETING);
+
     props.onDelete(
       props.appointment,
+      // call back for success of action
       () => {
-        /**success cb */
+        reset();
       },
+      // call back for failure of action
       () => {
-        // transition(ERROR_DELETE);
-        console.log("API DELETE CALL FAILED, SHOW ERROR");
         transition(ERROR_DELETE, REPLACE);
       }
     );
@@ -70,9 +69,7 @@ export default function Appointment(props) {
     return (
       <Form
         state={props.state}
-        onCancel={() => {
-          back();
-        }}
+        onCancel={back}
         onSave={save}
         appointment={props.appointment}
       />
@@ -102,7 +99,7 @@ export default function Appointment(props) {
           state={props.state}
         />
       )}
-      {(mode === CREATE || mode === EDIT) && inputFormData(mode)}
+      {(mode === CREATE || mode === EDIT) && inputFormData()}
       {mode === ERROR_SAVE && (
         <Error
           message={"We are unable to save at this time."}

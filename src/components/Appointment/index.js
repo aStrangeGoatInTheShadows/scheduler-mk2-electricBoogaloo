@@ -30,7 +30,8 @@ export default function Appointment(props) {
       interviewer,
     };
 
-    props.onSave(interview);
+    props.onSave(props.appointment.id, interview);
+    // transition(SHOW);
   };
 
   return (
@@ -57,6 +58,7 @@ export default function Appointment(props) {
             back();
           }}
           onSave={save}
+          // id={props.id}
         />
       )}
       {/* {mode === EDIT && createOrEdit(EDIT)} */}

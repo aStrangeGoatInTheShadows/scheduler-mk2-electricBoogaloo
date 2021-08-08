@@ -24,7 +24,8 @@ const ERROR_DELETE = "ERROR_DELETE";
 const REPLACE = true;
 
 export default function Appointment(props) {
-  const interview = props.appointment.interview || null;
+  const interview =
+    props.id !== "last" && (props.appointment.interview || null);
 
   const { mode, transition, back, reset } = useVisualMode(
     interview ? SHOW : EMPTY

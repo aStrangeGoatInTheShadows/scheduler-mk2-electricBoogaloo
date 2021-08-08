@@ -14,6 +14,17 @@ const removeInterviewFromState = (appointment, state, setState) => {
   setState({ ...state, appointments: newAppointments });
 };
 
+/////////////////////////////////////////////////////////////////////////////
+// Uses local state by default, accepts outside state for testing or feature expansion
+// Updates spots for day, assumes new spot booked unless told otherwise
+const updateSpotsForDay = (state, day, booking = true) => {
+  console.log(state.days);
+
+  return state;
+};
+
+///////////////////////////////////////// WORKING HERE
+
 export default function useApplicationData() {
   const [state, setState] = useState({
     day: "Monday",
@@ -25,6 +36,7 @@ export default function useApplicationData() {
 
   /////////////////////////// API CALLS ///////////////////////////////////
   const apiDeleteInterview = (id) => {
+    console.log(JSON.stringify(state));
     return axios.delete(`${api}/api/appointments/${id}`);
   };
 
@@ -54,6 +66,7 @@ export default function useApplicationData() {
       apiGetAppointments(),
       apiGetInterviewers(),
     ]).then((response) => {
+      console.log("api fetches rab");
       setState((stateClassic) => {
         const newState = {
           days: response[0].data,
@@ -67,21 +80,21 @@ export default function useApplicationData() {
     });
   }, [setState]);
 
-  const bookInterview = (id, interview, successCB, failureCB) => {
+  const bookInterview = (id, interview, transitionToShow, displaySaveErr) => {
     const appointment = {
       ...state.appointments[id],
       interview: { ...interview },
     };
-
     const appointments = { ...state.appointments, [id]: appointment };
 
     apiPutAppointment(appointment)
       .then(() => {
         setState({ ...state, appointments });
-        successCB();
+
+        transitionToShow();
       })
       .catch(() => {
-        failureCB();
+        displaySaveErr();
       });
   };
 
@@ -98,5 +111,7 @@ export default function useApplicationData() {
       });
   };
 
-  return { state, setDay, bookInterview, deleteInterview };
+  return { state, setDay, bookInterview, deleteInterview, updateSpotsForDay };
 }
+
+export { updateSpotsForDay };

@@ -34,6 +34,10 @@ const generateAppointmentList = (
     );
   });
 
+  appArr.push(
+    <Appointment key="last" id="last" appointment={{ time: "5pm" }} />
+  );
+
   return appArr;
 };
 

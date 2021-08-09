@@ -3,9 +3,9 @@ const testData = {
     {
       id: 1,
       name: "Monday",
-      appointments: [1, 2, 3, 4, 5],
-      interviewers: [1, 2, 6, 7, 9],
-      spots: 0,
+      appointments: [1, 2, 4, 5],
+      interviewers: [1, 2, 7, 9],
+      spots: 1,
     },
     {
       id: 2,
@@ -42,11 +42,6 @@ const testData = {
       id: 2,
       time: "1pm",
       interview: { student: "matrtsdfsdfsdf", interviewer: 6 },
-    },
-    3: {
-      id: 3,
-      time: "2pm",
-      interview: { student: "Archie Cohen", interviewer: 6 },
     },
     4: { id: 4, time: "3pm", interview: { student: "matt", interviewer: 7 } },
     5: {

@@ -1,5 +1,4 @@
 import React from "react";
-import classNames from "classnames/bind";
 
 import "./styles.scss";
 
@@ -11,7 +10,7 @@ export default function Status(props) {
         src="images/status.png"
         alt="Loading"
       />
-      <h1 className="text--semi-bold">Deleting</h1>
+      <h1 className="text--semi-bold">{props.message}</h1>
     </main>
   );
 }

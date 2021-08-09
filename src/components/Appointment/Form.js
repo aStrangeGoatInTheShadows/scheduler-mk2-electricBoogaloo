@@ -1,12 +1,18 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 
 import "./styles.scss";
 
 import Button from "components/Button";
 import InterviewerList from "components/InterviewerList";
 export default function Form(props) {
-  const [name, setName] = useState(props.name || "");
-  const [interviewer, setInterviewer] = useState(props.interviewer || null);
+  // Sets default state to use prexisiting appointment if it exists, otherwise sets empty/null
+  const [name, setName] = useState(
+    (props.appointment.interview && props.appointment.interview.student) || ""
+  );
+  const [interviewer, setInterviewer] = useState(
+    (props.appointment.interview && props.appointment.interview.interviewer) ||
+      null
+  );
 
   const resetForm = () => {
     setName("");
@@ -32,11 +38,9 @@ export default function Form(props) {
           />
         </form>
         <InterviewerList
-          interviewers={props.interviewers}
+          interviewers={props.state.interviewers}
           interviewer={interviewer}
-          setInterviewer={(target) => {
-            setInterviewer(target);
-          }}
+          setInterviewer={setInterviewer}
         />
       </section>
       <section className="appointment__card-right">
@@ -49,7 +53,14 @@ export default function Form(props) {
           >
             Cancel
           </Button>
-          <Button confirm onClick={props.onSave}>
+          <Button
+            confirm
+            onClick={() => {
+              if (name && interviewer) {
+                props.onSave(name, interviewer);
+              }
+            }}
+          >
             Save
           </Button>
         </section>

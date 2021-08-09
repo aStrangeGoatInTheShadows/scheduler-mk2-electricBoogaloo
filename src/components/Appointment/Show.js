@@ -1,16 +1,21 @@
 import React from "react";
-import classNames from "classnames/bind";
+
+import { getInterviewerNameById } from "helpers/selectors";
 
 import "./styles.scss";
 
 export default function Show(props) {
+  const studentsName = props.student;
+  const interviewerId = props.interviewer;
+  const interviewersName = props.state.interviewers[interviewerId].name;
+
   return (
     <main className="appointment__card appointment__card--show">
       <section className="appointment__card-left">
-        <h2 className="text--regular">Lydia Miller-Jones</h2>
+        <h2 className="text--regular">{studentsName}</h2>
         <section className="interviewer">
           <h4 className="text--light">Interviewer</h4>
-          <h3 className="text--regular">Sylvia Palmer</h3>
+          <h3 className="text--regular">{interviewersName}</h3>
         </section>
       </section>
       <section className="appointment__card-right">
@@ -19,11 +24,13 @@ export default function Show(props) {
             className="appointment__actions-button"
             src="images/edit.png"
             alt="Edit"
+            onClick={props.onEdit}
           />
           <img
             className="appointment__actions-button"
             src="images/trash.png"
             alt="Delete"
+            onClick={props.onDelete}
           />
         </section>
       </section>

@@ -17,10 +17,31 @@ const removeInterviewFromState = (appointment, state, setState) => {
 /////////////////////////////////////////////////////////////////////////////
 // Uses local state by default, accepts outside state for testing or feature expansion
 // Updates spots for day, assumes new spot booked unless told otherwise
-const updateSpotsForDay = (state, day, booking = true) => {
-  console.log(state.days);
+const updateSpotsForDay = (state, booking = true, day = "Monday") => {
+  const newState = { ...state };
 
-  return state;
+  for (let dayObj of state.days) {
+    if (dayObj.name === day) {
+      let spots = 0;
+
+      for (let appt of dayObj.appointments) {
+        if (!state.appointments[appt].interview) {
+          if (booking) {
+            spots--;
+          }
+          if (!booking) {
+            spots++;
+          }
+        }
+      }
+      dayObj = { ...dayObj, spots: spots };
+      const newDaysArr = [...state.days];
+      newDaysArr[dayObj.id - 1] = dayObj;
+      newState.days = [...newDaysArr];
+    }
+  }
+
+  return newState;
 };
 
 ///////////////////////////////////////// WORKING HERE
@@ -36,7 +57,6 @@ export default function useApplicationData() {
 
   /////////////////////////// API CALLS ///////////////////////////////////
   const apiDeleteInterview = (id) => {
-    console.log(JSON.stringify(state));
     return axios.delete(`${api}/api/appointments/${id}`);
   };
 
@@ -89,11 +109,16 @@ export default function useApplicationData() {
 
     apiPutAppointment(appointment)
       .then(() => {
-        setState({ ...state, appointments });
+        let newState = { ...state, appointments };
+
+        setState({ ...updateSpotsForDay(newState) });
+
+        ///////////////////// YOUR NOT PASSING THE DAY
 
         transitionToShow();
       })
-      .catch(() => {
+      .catch((err) => {
+        console.log(err);
         displaySaveErr();
       });
   };
@@ -102,7 +127,12 @@ export default function useApplicationData() {
   const deleteInterview = (appointment, resetVisualMode, returnToForm) => {
     apiDeleteInterview(appointment.id)
       .then(() => {
-        removeInterviewFromState(appointment, state, setState);
+        removeInterviewFromState(
+          appointment,
+          state,
+          setState,
+          updateSpotsForDay
+        );
 
         resetVisualMode();
       })
@@ -111,7 +141,7 @@ export default function useApplicationData() {
       });
   };
 
-  return { state, setDay, bookInterview, deleteInterview, updateSpotsForDay };
+  return { state, setDay, bookInterview, deleteInterview };
 }
 
 export { updateSpotsForDay };

@@ -66,7 +66,7 @@ export default function Appointment(props) {
     );
   };
 
-  const inputFormData = () => {
+  const inputFormJSX = () => {
     return (
       <Form
         state={props.state}
@@ -100,7 +100,7 @@ export default function Appointment(props) {
           state={props.state}
         />
       )}
-      {(mode === CREATE || mode === EDIT) && inputFormData()}
+      {(mode === CREATE || mode === EDIT) && inputFormJSX()}
       {mode === ERROR_SAVE && (
         <Error
           message={"We are unable to save at this time."}

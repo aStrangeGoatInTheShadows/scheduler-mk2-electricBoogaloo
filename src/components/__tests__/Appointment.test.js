@@ -10,7 +10,7 @@ describe("Appointment", () => {
   it("renders without crashing", () => {
     render(
       <Appointment
-        key={1}
+        key={0}
         appointment={{}}
         state={{}}
         onSave={() => {}}

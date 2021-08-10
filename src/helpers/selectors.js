@@ -43,4 +43,8 @@ const getInterviewersForDay = (state, selectedDay) => {
   return interviewersForDay;
 };
 
+const getDayByAppID = (id) => {
+  const days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"];
+};
+
 export { getAppointmentsForDay, getInterviewerNameById, getInterviewersForDay };

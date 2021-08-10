@@ -16,6 +16,10 @@ export default function Form(props) {
 
   const [error, setError] = useState("");
 
+  const clearErrors = () => {
+    setError("");
+  };
+
   const resetForm = () => {
     setName("");
     setInterviewer(null);
@@ -26,12 +30,17 @@ export default function Form(props) {
     props.onCancel();
   };
 
-  const validateForm = () => {
+  const validateAndSaveInterview = () => {
     if (name === "") {
       setError("Student name cannot be blank");
       return;
     }
 
+    if (name !== "" && interviewer === null) {
+      setError("You must select an interviewer before saving.");
+      return;
+    }
+    clearErrors();
     props.onSave(name, interviewer);
   };
 
@@ -69,12 +78,7 @@ export default function Form(props) {
           <Button
             confirm
             onClick={() => {
-              validateForm();
-              if (name && interviewer) {
-                console.log(
-                  "NOSAVE WITH NO ERROR MESSAGE - MUST IMPLEMENT ERROR MESSAGE"
-                );
-              }
+              validateAndSaveInterview();
             }}
           >
             Save

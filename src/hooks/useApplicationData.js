@@ -14,6 +14,22 @@ const removeInterviewFromState = (appointment, state, setState) => {
   setState({ ...state, appointments: newAppointments });
 };
 
+///////////////////////////////////////
+// Mk1 Implementation - come back to before finish
+//////////////////////////////////////////
+// const getFreeSpots = (state) => {
+//   const apps = getAppointmentsForDay(state, state.day);
+//   let count = 0;
+
+//   for (let a of apps) {
+//     if (!a.interview) {
+//       count++;
+//     }
+//   }
+
+//   return count;
+// };
+
 /////////////////////////////////////////////////////////////////////////////
 // Uses local state by default, accepts outside state for testing or feature expansion
 // Updates spots for day, assumes new spot booked unless told otherwise

@@ -14,6 +14,8 @@ export default function Form(props) {
       null
   );
 
+  const [error, setError] = useState("");
+
   const resetForm = () => {
     setName("");
     setInterviewer(null);
@@ -22,6 +24,15 @@ export default function Form(props) {
   const cancelForm = () => {
     resetForm();
     props.onCancel();
+  };
+
+  const validateForm = () => {
+    if (name === "") {
+      setError("Student name cannot be blank");
+      return;
+    }
+
+    props.onSave(name, interviewer);
   };
 
   return (
@@ -38,6 +49,7 @@ export default function Form(props) {
             onChange={(event) => setName(event.target.value)}
           />
         </form>
+        <section className="appointment__validation">{error}</section>
         <InterviewerList
           interviewers={props.state.interviewers}
           interviewer={interviewer}
@@ -57,8 +69,11 @@ export default function Form(props) {
           <Button
             confirm
             onClick={() => {
+              validateForm();
               if (name && interviewer) {
-                props.onSave(name, interviewer);
+                console.log(
+                  "NOSAVE WITH NO ERROR MESSAGE - MUST IMPLEMENT ERROR MESSAGE"
+                );
               }
             }}
           >

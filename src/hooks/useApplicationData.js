@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-
-const api = `http://localhost:8001`;
+const api_network_address = `http://localhost:8001`;
+axios.defaults.baseURL = api_network_address;
 
 const removeInterviewFromState = (appointment, state, setState) => {
   const emptyAppointment = { ...appointment, interview: null };
@@ -73,25 +73,25 @@ export default function useApplicationData() {
 
   /////////////////////////// API CALLS ///////////////////////////////////
   const apiDeleteInterview = (id) => {
-    return axios.delete(`${api}/api/appointments/${id}`);
+    return axios.delete(`/api/appointments/${id}`);
   };
 
   /// API CALLS TO GET DATA
   const apiGetDays = function () {
-    return axios.get(`${api}/api/days`);
+    return axios.get(`/api/days`);
   };
   const apiGetAppointments = function () {
-    return axios.get(`${api}/api/appointments`);
+    return axios.get(`/api/appointments`);
   };
   const apiGetInterviewers = function () {
-    return axios.get(`${api}/api/interviewers`);
+    return axios.get(`/api/interviewers`);
   };
 
   // API CALLS TO PUT DATA
   const apiPutAppointment = function (appointment) {
     const interview = appointment.interview;
 
-    return axios.put(`${api}/api/appointments/${appointment.id}`, {
+    return axios.put(`/api/appointments/${appointment.id}`, {
       interview,
     });
   };
@@ -102,7 +102,6 @@ export default function useApplicationData() {
       apiGetAppointments(),
       apiGetInterviewers(),
     ]).then((response) => {
-      console.log("api fetches rab");
       setState((stateClassic) => {
         const newState = {
           days: response[0].data,

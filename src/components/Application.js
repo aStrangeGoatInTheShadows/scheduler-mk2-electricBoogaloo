@@ -7,7 +7,7 @@ import useApplicationData from "hooks/useApplicationData.js";
 
 import "components/Application.scss";
 import DayList from "./DayList";
-import Appointment from "./Appointment/index";
+import Appointment from "./Appointment/index.jsx";
 
 const api = `http://localhost:8001`;
 

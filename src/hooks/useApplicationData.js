@@ -95,7 +95,7 @@ export default function useApplicationData() {
         transitionToShow();
       })
       .catch((err) => {
-        console.log(err);
+        console.log("haha, oh no we encountered an error haha... ", err);
         displaySaveErr();
       });
   };

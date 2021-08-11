@@ -1,53 +1,19 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
 const api_network_address = `http://localhost:8001`;
 axios.defaults.baseURL = api_network_address;
 
-const removeInterviewFromState = (appointment, state, setState) => {
-  const emptyAppointment = { ...appointment, interview: null };
-
-  const newAppointments = {
-    ...state.appointments,
-    [appointment.id]: emptyAppointment,
-  };
-
-  setState({ ...state, appointments: newAppointments });
-};
-
-///////////////////////////////////////
-// Mk1 Implementation - come back to before finish
-//////////////////////////////////////////
-// const getFreeSpots = (state) => {
-//   const apps = getAppointmentsForDay(state, state.day);
-//   let count = 0;
-
-//   for (let a of apps) {
-//     if (!a.interview) {
-//       count++;
-//     }
-//   }
-
-//   return count;
-// };
-
-/////////////////////////////////////////////////////////////////////////////
-// Uses local state by default, accepts outside state for testing or feature expansion
-// Updates spots for day, assumes new spot booked unless told otherwise
-const updateSpotsForDay = (state, booking = true, day = "Monday") => {
+// takes in the state, returns the state with spots accurately reflecting spots available
+const updateSpotsForDay = (state) => {
   const newState = { ...state };
 
   for (let dayObj of state.days) {
-    if (dayObj.name === day) {
+    if (dayObj.name === state.day) {
       let spots = 0;
 
       for (let appt of dayObj.appointments) {
         if (!state.appointments[appt].interview) {
-          if (booking) {
-            spots--;
-          }
-          if (!booking) {
-            spots++;
-          }
+          spots++;
         }
       }
       dayObj = { ...dayObj, spots: spots };
@@ -56,11 +22,8 @@ const updateSpotsForDay = (state, booking = true, day = "Monday") => {
       newState.days = [...newDaysArr];
     }
   }
-
   return newState;
 };
-
-///////////////////////////////////////// WORKING HERE
 
 export default function useApplicationData() {
   const [state, setState] = useState({
@@ -71,7 +34,6 @@ export default function useApplicationData() {
 
   const setDay = (day) => setState({ ...state, day });
 
-  /////////////////////////// API CALLS ///////////////////////////////////
   const apiDeleteInterview = (id) => {
     return axios.delete(`/api/appointments/${id}`);
   };
@@ -87,7 +49,7 @@ export default function useApplicationData() {
     return axios.get(`/api/interviewers`);
   };
 
-  // API CALLS TO PUT DATA
+  // Add appointment to API server
   const apiPutAppointment = function (appointment) {
     const interview = appointment.interview;
 
@@ -96,6 +58,7 @@ export default function useApplicationData() {
     });
   };
 
+  // Gets all date from API
   useEffect(() => {
     Promise.all([
       apiGetDays(),
@@ -107,7 +70,7 @@ export default function useApplicationData() {
           days: response[0].data,
           appointments: response[1].data,
           day: stateClassic.day,
-          interviewers: response[2].data,
+          interviewers: [...Object.values(response[2].data)],
         };
 
         return newState;
@@ -115,6 +78,7 @@ export default function useApplicationData() {
     });
   }, [setState]);
 
+  // When the user books an appointment, this will update the api server and update the state
   const bookInterview = (id, interview, transitionToShow, displaySaveErr) => {
     const appointment = {
       ...state.appointments[id],
@@ -128,8 +92,6 @@ export default function useApplicationData() {
 
         setState({ ...updateSpotsForDay(newState) });
 
-        ///////////////////// YOUR NOT PASSING THE DAY
-
         transitionToShow();
       })
       .catch((err) => {
@@ -142,15 +104,20 @@ export default function useApplicationData() {
   const deleteInterview = (appointment, resetVisualMode, returnToForm) => {
     apiDeleteInterview(appointment.id)
       .then(() => {
-        removeInterviewFromState(
-          appointment,
-          state,
-          setState,
-          updateSpotsForDay
-        );
+        const emptyAppointment = { ...appointment, interview: null };
+
+        const newAppointments = {
+          ...state.appointments,
+          [appointment.id]: emptyAppointment,
+        };
+
+        const newState = { ...state, appointments: newAppointments };
+
+        setState(updateSpotsForDay(newState));
 
         resetVisualMode();
       })
+
       .catch(() => {
         returnToForm();
       });
@@ -158,5 +125,3 @@ export default function useApplicationData() {
 
   return { state, setDay, bookInterview, deleteInterview };
 }
-
-export { updateSpotsForDay };

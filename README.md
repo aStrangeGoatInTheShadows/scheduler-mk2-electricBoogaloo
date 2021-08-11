@@ -38,4 +38,4 @@ Thats where the buttons in the bottom right come into play! The one on left will
 
 <p><img alt="" src="./documentation/screenshots/Edit.png" /></p>
 
-If you have any problems, please feel free to reach out to some developers.
+If you theres any problems resulting in the total failure of this project, please feel free to reach the developer (Matt Macdonald) on slack.

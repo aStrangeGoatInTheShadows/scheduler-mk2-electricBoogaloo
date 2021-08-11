@@ -7,8 +7,6 @@ import "components/Application.scss";
 import DayList from "./DayList";
 import Appointment from "./Appointment/index.jsx";
 
-const api = `http://localhost:8001`;
-
 // When passed the current day as well as the state
 // this function will fetch appointments for the day
 // It returns an array of react appointment components

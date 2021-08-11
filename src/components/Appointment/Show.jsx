@@ -4,8 +4,6 @@ import "./styles.scss";
 
 // If there is an interview booked for a given appointment slot, this will display it
 export default function Show(props) {
-  console.log(props);
-
   const studentsName = props.student;
   const interviewerId = props.interviewer;
   const interviewersName = props.state.interviewers[interviewerId - 1].name;

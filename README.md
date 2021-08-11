@@ -26,7 +26,7 @@ This should get you up and running this revolutionary new technology.
 
 A web browser will open an you will be presented with this
 
-<p><img alt="" src="./documentation/screenshots/landing.png" /></p>
+<p><img alt="" src="./documentation/screenshots/Landing.png" /></p>
 
 You can then click on one of the large + symbol to add a new appointment
 

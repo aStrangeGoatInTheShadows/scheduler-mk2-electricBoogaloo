@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { v4 } from "uuid";
 
 import "./styles.scss";
 
@@ -43,7 +44,6 @@ export default function Form(props) {
     clearErrors();
     props.onSave(name, interviewer);
   };
-
   return (
     <main className="appointment__card appointment__card--create">
       <section className="appointment__card-left">
@@ -60,6 +60,7 @@ export default function Form(props) {
         </form>
         <section className="appointment__validation">{error}</section>
         <InterviewerList
+          key={v4()}
           interviewers={props.state.interviewers}
           interviewer={interviewer}
           setInterviewer={setInterviewer}

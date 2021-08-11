@@ -1,14 +1,14 @@
 import React from "react";
 
-import { getInterviewerNameById } from "helpers/selectors";
-
 import "./styles.scss";
 
 // If there is an interview booked for a given appointment slot, this will display it
 export default function Show(props) {
+  console.log(props);
+
   const studentsName = props.student;
   const interviewerId = props.interviewer;
-  const interviewersName = props.state.interviewers[interviewerId].name;
+  const interviewersName = props.state.interviewers[interviewerId - 1].name;
 
   return (
     <main className="appointment__card appointment__card--show">

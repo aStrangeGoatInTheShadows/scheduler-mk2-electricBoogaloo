@@ -23,6 +23,8 @@ const ERROR_SAVE = "ERROR_SAVE";
 const ERROR_DELETE = "ERROR_DELETE";
 const REPLACE = true;
 
+// This is the main function to generate our Appointments Cards that displays information to the users for specific time slots
+// The other components in this folder are children of this component
 export default function Appointment(props) {
   const interview =
     props.id !== "last" && (props.appointment.interview || null);

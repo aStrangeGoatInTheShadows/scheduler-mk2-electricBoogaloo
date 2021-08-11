@@ -5,8 +5,9 @@ import "./styles.scss";
 
 import Button from "components/Button";
 import InterviewerList from "components/InterviewerList";
+
+// This creates the form component there the user can create a new appointment or edit an old one
 export default function Form(props) {
-  // Sets default state to use prexisiting appointment if it exists, otherwise sets empty/null
   const [name, setName] = useState(
     (props.appointment.interview && props.appointment.interview.student) || ""
   );

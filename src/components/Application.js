@@ -1,6 +1,5 @@
 import React from "react";
 
-////////////////// HELPERS IMPORT /////////////////////
 import { getAppointmentsForDay } from "helpers/selectors";
 import useApplicationData from "hooks/useApplicationData.js";
 
@@ -40,6 +39,7 @@ const generateAppointmentList = (
   return appArr;
 };
 
+// This is our main application component - All other components are children or grandchildren
 export default function Application(props) {
   const { state, setDay, bookInterview, deleteInterview } =
     useApplicationData();

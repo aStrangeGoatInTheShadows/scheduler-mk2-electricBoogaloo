@@ -4,6 +4,7 @@ import "./styles.scss";
 
 import Button from "components/Button";
 
+// Pops up an "Are You Sure?" dialogue when requested. Only used for delete at this time
 export default function Confirm(props) {
   return (
     <main className="appointment__card appointment__card--confirm">

@@ -4,6 +4,7 @@ import PropTypes from "prop-types";
 import "components/InterviewerList.scss";
 import InterviewerListItem from "./InterviewerListItem";
 
+// This generates the react component that shows the circles with faces as when you edit a form or create a new appointment
 export default function InterviewerList(props) {
   const interviewerKeys = Object.keys(props.interviewers);
 

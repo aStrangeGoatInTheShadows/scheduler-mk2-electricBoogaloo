@@ -3,6 +3,7 @@ import classNames from "classnames/bind";
 
 import "components/DayListItem.scss";
 
+// This generates one specific day for the list on left hand side bar
 export default function DayListItem(props) {
   const formatSpots = () => {
     if (!props.spots) {

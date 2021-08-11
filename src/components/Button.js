@@ -1,18 +1,11 @@
 import React from "react";
 import classNames from "classnames/bind";
 
-/////////////////////////////////////////////////////////////////////////////////
-// HOW TO USE CLASSNAMES ///////
-/////////////////////////////////////////////////////////////////////////////////
-// classNames('foo', 'bar'); // => 'foo bar'
-// classNames('foo', { bar: true }); // => 'foo bar'
-// classNames('foo', { bar: false }); // => 'foo'
-
 import "components/Button.scss";
 
-// Creates our main button
+// This generates a fairly open ended button thats used in multiple places
 export default function Button(props) {
-  // Sets the class dependant on button state
+  // Generates a class tag to determine if the button is green or red
   let buttonClass = classNames("button", {
     "button--confirm": props.confirm,
     "button--danger": props.danger,

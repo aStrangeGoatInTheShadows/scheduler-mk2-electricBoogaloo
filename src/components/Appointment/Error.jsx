@@ -2,6 +2,7 @@ import React from "react";
 
 import "./styles.scss";
 
+// This generates an error message to the user if there is an issue with the API server
 export default function Status(props) {
   return (
     <main className="appointment__card appointment__card--error">

@@ -34,7 +34,7 @@ You can then click on one of the large + symbol to add a new appointment
 
 Once you hit save, the data gets uploaded to the database and will persist until the end of time, or you delete it!
 
-Thats where the buttons in the bottom right come into play! The one on left will let you change the name and the interviewer of your appointment! If you click on the right, button you will be prompted to delete it! Then you can just stay at home and have a beer!
+Thats where the buttons in the bottom right come into play! The one on left will let you change the name and the interviewer of your appointment! If you click on the right, button you will be prompted to delete it! 
 
 <p><img alt="" src="./documentation/screenshots/Edit.png" /></p>
 

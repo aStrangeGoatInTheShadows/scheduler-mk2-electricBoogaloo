@@ -32,10 +32,7 @@ You can then click on one of the large + symbol to add a new appointment
 
 <p><img alt="" src="./documentation/screenshots/Form instructions.png" /></p>
 
-Once you hit save, the data gets uploaded to the database and will persist until the end of time, or you delete it!
-
+Once you hit save, the data gets uploaded to the database.
 Thats where the buttons in the bottom right come into play! The one on left will let you change the name and the interviewer of your appointment! If you click on the right, button you will be prompted to delete it! 
 
 <p><img alt="" src="./documentation/screenshots/Edit.png" /></p>
-
-If theres any problems resulting in the total failure of this project, please feel free to reach the developer (Matt Macdonald) on slack.
